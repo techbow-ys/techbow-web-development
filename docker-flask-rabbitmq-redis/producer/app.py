@@ -7,7 +7,7 @@ app = Flask(__name__)
 
 @app.route("/")
 def hello():
-    return Response("Hi from your Flask app running in your Docker container!")
+    return Response("Hi I am producer service!")
 
 @app.route("/temperature/<int:temperature>", methods=['GET'])
 def send_temperature(temperature):

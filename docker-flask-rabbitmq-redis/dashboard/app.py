@@ -11,7 +11,7 @@ def get():
     total = int(redis_client.get('total'))
     num = int(redis_client.get('num'))
     avg = total * 1.0 / num
-    return jsonify({'avg': avg})
+    return jsonify({'avg': avg, 'total': total, 'num': num})
 
 @app.route("/")
 def hello():
