@@ -100,9 +100,29 @@ def view_my_cart(user_id):
     conn = mysql.connect()
     cursor = conn.cursor()
     cursor.execute("SELECT product_id from user_product where user_id = {user_id}".format(user_id=user_id))
-    product_id_all = cursor.fetchone()
+    product_id_all = cursor.fetchall()
     conn.close()
     return jsonify({'user_id': user_id, 'product_id_all': product_id_all})
+
+
+@app.route("/user/<int:user_id>/cart/allinfo", methods=['GET'])
+def view_all_my_cart(user_id):
+    conn = mysql.connect()
+    cursor = conn.cursor()
+    cursor.execute(
+        """
+            select p.product_name, p.supplier, p.price, u.name, u.email
+            from product p
+            join user_product up
+            on p.id = up.product_id
+            join user u
+            on u.id = up.user_id
+            where u.id = {user_id}
+        """
+        .format(user_id=user_id))
+    product_info_all = cursor.fetchall()
+    conn.close()
+    return jsonify({'user_id': user_id, 'product_info_all': product_info_all})
 
 
 if __name__ == "__main__":
