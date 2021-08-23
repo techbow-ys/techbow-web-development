@@ -34,11 +34,39 @@ CREATE TABLE IF NOT EXISTS `user` (
     INDEX NAME_IND (name)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE INDEX NAME_IND ON user (name);
 SHOW tables;
 DESC user;
 INSERT INTO user (name, email) VALUES ("A", "a@gmail.com");
-SELECT * FROM use WHERE name = 'A';
+SELECT * FROM user WHERE name = 'A';
+
+
+
+CREATE TABLE IF NOT EXISTS `product` (
+    `id` INT UNSIGNED AUTO_INCREMENT,
+    `product_name` VARCHAR(20) NOT NULL,
+    `supplier` VARCHAR(20) NOT NULL,
+    `price` INT UNSIGNED,
+    PRIMARY KEY ( `id` ),
+    INDEX NAME_IND (product_name)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+SHOW tables;
+DESC product;
+INSERT INTO product (product_name, supplier, price) VALUES ("coke", "amazon", 1);
+SELECT * FROM product WHERE product_name = 'coke';
+
+
+
+CREATE TABLE IF NOT EXISTS `user_product` (
+    `user_id` INT UNSIGNED,
+    `product_id` INT UNSIGNED,
+    CONSTRAINT user_product_pk PRIMARY KEY (user_id, product_id),
+    CONSTRAINT FK_user FOREIGN KEY (user_id) REFERENCES user (id),
+    CONSTRAINT FK_product FOREIGN KEY (product_id) REFERENCES product (id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+SHOW tables;
+DESC user_product;
+INSERT INTO user_product (user_id, product_id) VALUES (1, 1);
+SELECT * FROM user_product;
 ```
 
 To build the image contains the web app
